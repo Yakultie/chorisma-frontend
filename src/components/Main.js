@@ -1,4 +1,5 @@
 import logo from '../logo.png';
+import { FaPlay } from "react-icons/fa";
 import text_logo from '../text_logo.png';
 import '../App.css';
 import $ from 'jquery';
@@ -15,7 +16,12 @@ class Main extends Component {
                     <img src={logo} className="App-logo" alt="logo" />
                 </button>
                 <br /><br />
+                <div className="buttonContainer">
+                <a href="/recognize" className="wizard-button">
+                    <FaPlay/>
+                </a>
                 <a href="/wizard"><button className="wizard-button">Manual Detect</button></a>
+                </div>
                 </header>
             </div>
         );
