@@ -22,6 +22,7 @@ class Recognizer extends Component {
         }).then(response => response.json())
         .then(res => {
             console.log(res)
+            $(".chord-name").text(res.chord);
         })
     }
     
@@ -68,6 +69,8 @@ class Recognizer extends Component {
     render() {
         return (
             <div>
+                <p className="chord-name"></p>
+                <br />
                 <button className="clicker" onClick={this.startListening}>
                     <img src={logo} className="App-logo paused" alt="logo" />
                 </button>
