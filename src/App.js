@@ -1,7 +1,7 @@
 import './App.css';
 import Main from './components/Main';
 import NoteVoicingWizard from './components/NoteVoicingWizard';
-import Recognizer from './components/Recognize';
+import Recognizer from './components/Recognizer';
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';

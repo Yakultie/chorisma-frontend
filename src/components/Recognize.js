@@ -2,16 +2,28 @@ import {React, Component} from 'react'
 import MicRecorder from 'mic-recorder-to-mp3';
 
 class Recognizer extends Component {
-    uploadViaPresignedURL(preSignedURL, file) {
-        fetch(preSignedURL, {
+    async uploadViaPresignedURL(preSignedURL, file, key) {
+        await fetch(preSignedURL, {
             method: "PUT",
-            body: JSON.stringify(file)
+            body: file
         }).then(response => {
-            console.log(response)
+            this.recognizeChord(key);
         })
     }
 
-    processAudio(recorder) {
+    async recognizeChord(key) {
+        await fetch("http://127.0.0.1:3000/recognize_chord", {
+            method: "POST",
+            body: JSON.stringify({
+                "resourceLocation": key
+            })
+        }).then(response => response.json())
+        .then(res => {
+            console.log(res)
+        })
+    }
+
+    async processAudio(recorder) {
         console.log("Now processing audio")
         recorder.stop().getMp3().then(([buffer, blob]) => {
             // do what ever you want with buffer and blob
@@ -20,15 +32,15 @@ class Recognizer extends Component {
                 type: blob.type,
                 lastModified: Date.now()
             });
+            console.log(file)
 
             fetch("http://127.0.0.1:3000/get_presigned_url")
             .then(response => response.json())
             .then(res => {
-                this.uploadViaPresignedURL(res.preSignedURL, file);
-                console.log(res.preSignedURL)
+                this.uploadViaPresignedURL(res.preSignedURL, file, res.key);
             })
         }).catch((e) => {
-            alert('We could not retrieve your message');
+            alert('Failed to record audio');
             console.log(e);
         });
     }
@@ -39,7 +51,7 @@ class Recognizer extends Component {
         });
 
         recorder.start().then(() => {
-            setTimeout(() => this.processAudio(recorder), 1000)
+            setTimeout(() => this.processAudio(recorder), 6000)
         }).catch((e) => {
             console.error(e);
         });
@@ -49,7 +61,7 @@ class Recognizer extends Component {
     render() {
         return (
             <div>
-                <h1>Listening</h1>
+                <h1>Listening...</h1>
             </div>
         )
     }
