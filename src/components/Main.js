@@ -1,5 +1,4 @@
 import logo from '../logo.png';
-import { FaPlay } from "react-icons/fa";
 import text_logo from '../text_logo.png';
 import Recognizer from './Recognizer';
 import '../App.css';

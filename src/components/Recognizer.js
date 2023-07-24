@@ -14,6 +14,20 @@ class Recognizer extends Component {
             type: blob.type,
             lastModified: Date.now()
             });
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://2qfawbnaa4.execute-api.ap-southeast-2.amazonaws.com/Prod/recognize_chord");
+            xhr.send();
+            xhr.responseType = "json";
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.response);
+                    var chord = response.chord;
+                    console.log(chord);
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
         
             const player = new Audio(URL.createObjectURL(file));
             player.play();
