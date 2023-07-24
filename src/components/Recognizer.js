@@ -1,5 +1,6 @@
 import {React, Component} from 'react'
 import MicRecorder from 'mic-recorder-to-mp3';
+import logo from '../logo.png';
 
 class Recognizer extends Component {
     processAudio(recorder) {
@@ -40,7 +41,9 @@ class Recognizer extends Component {
     render() {
         return (
             <div>
-                <h1>Listening</h1>
+                <button className="clicker">
+                    <img src={logo} className="App-logo" alt="logo" />
+                </button>
             </div>
         )
     }
