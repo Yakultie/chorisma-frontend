@@ -4,38 +4,45 @@ import $ from 'jquery';
 import logo from '../logo.png';
 
 class Recognizer extends Component {
+    async uploadViaPresignedURL(preSignedURL, file, key) {
+        await fetch(preSignedURL, {
+            method: "PUT",
+            body: file
+        }).then(response => {
+            this.recognizeChord(key);
+        })
+    }
+
+    async recognizeChord(key) {
+        await fetch("http://127.0.0.1:3000/recognize_chord", {
+            method: "POST",
+            body: JSON.stringify({
+                "resourceLocation": key
+            })
+        }).then(response => response.json())
+        .then(res => {
+            console.log(res)
+        })
+    }
+    
     processAudio(recorder) {
         console.log("Now processing audio")
-        recorder
-        .stop()
-        .getMp3().then(([buffer, blob]) => {
+        recorder.stop().getMp3().then(([buffer, blob]) => {
             // do what ever you want with buffer and blob
             // Example: Create a mp3 file and play
             const file = new File(buffer, 'sample.mp3', {
-            type: blob.type,
-            lastModified: Date.now()
+                type: blob.type,
+                lastModified: Date.now()
             });
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://2qfawbnaa4.execute-api.ap-southeast-2.amazonaws.com/Prod/recognize_chord");
-            xhr.send();
-            xhr.responseType = "json";
-            xhr.onload = () => {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var response = JSON.parse(xhr.response);
-                    var chord = response.chord;
-                    console.log(chord);
-                } else {
-                    console.log(`Error: ${xhr.status}`);
-                }
-            };
-        
-            const player = new Audio(URL.createObjectURL(file));
-            player.play();
             console.log(file)
-        
+
+            fetch("http://127.0.0.1:3000/get_presigned_url")
+            .then(response => response.json())
+            .then(res => {
+                this.uploadViaPresignedURL(res.preSignedURL, file, res.key);
+            })
         }).catch((e) => {
-            alert('We could not retrieve your message');
+            alert('Failed to record audio');
             console.log(e);
         });
     }
@@ -51,7 +58,7 @@ class Recognizer extends Component {
             console.log("listening");
 
             recorder.start().then(() => {
-                setTimeout(() => this.processAudio(recorder), 1000);
+                setTimeout(() => this.processAudio(recorder), 6000);
             }).catch((e) => {
                 console.error(e);
             });
