@@ -14,7 +14,7 @@ class Recognizer extends Component {
     }
 
     async recognizeChord(key) {
-        await fetch("https://chorisma.app:8080/Prod/recognize_chord", {
+        await fetch("https://chorisma.app/Prod/recognize_chord", {
             method: "POST",
             body: JSON.stringify({
                 "resourceLocation": key
@@ -36,7 +36,7 @@ class Recognizer extends Component {
             });
             console.log(file)
 
-            fetch("https://chorisma.app:8080/Prod/get_presigned_url")
+            fetch("https://chorisma.app/Prod/get_presigned_url")
             .then(response => response.json())
             .then(res => {
                 this.uploadViaPresignedURL(res.preSignedURL, file, res.key);
