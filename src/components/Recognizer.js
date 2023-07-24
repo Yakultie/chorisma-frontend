@@ -1,5 +1,6 @@
 import {React, Component} from 'react'
 import MicRecorder from 'mic-recorder-to-mp3';
+import $ from 'jquery';
 import logo from '../logo.png';
 
 class Recognizer extends Component {
@@ -40,23 +41,28 @@ class Recognizer extends Component {
     }
 
     componentDidMount() {
+        console.log("mounted");
+
         const recorder = new MicRecorder({
             bitRate: 128
         });
 
-        recorder.start().then(() => {
-            setTimeout(() => this.processAudio(recorder), 1000)
-        }).catch((e) => {
-            console.error(e);
+        $(document).on('click', '.clicker', () => {
+            console.log("listening");
+
+            recorder.start().then(() => {
+                setTimeout(() => this.processAudio(recorder), 1000);
+            }).catch((e) => {
+                console.error(e);
+            });
         });
-    
     }
 
     render() {
         return (
             <div>
-                <button className="clicker">
-                    <img src={logo} className="App-logo" alt="logo" />
+                <button className="clicker" onClick={this.startListening}>
+                    <img src={logo} className="App-logo paused" alt="logo" />
                 </button>
             </div>
         )
