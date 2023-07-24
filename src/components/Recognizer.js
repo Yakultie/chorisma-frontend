@@ -14,7 +14,7 @@ class Recognizer extends Component {
     }
 
     async recognizeChord(key) {
-        await fetch("https://chorisma.app/Prod/recognize_chord", {
+        await fetch("https://5rche2pu3k.execute-api.ap-southeast-2.amazonaws.com/Prod/recognize_chord", {
             method: "POST",
             body: JSON.stringify({
                 "resourceLocation": key
@@ -23,6 +23,7 @@ class Recognizer extends Component {
         .then(res => {
             console.log(res)
             $(".chord-name").text(res.chord);
+            $('.App-logo').toggleClass('paused');
         })
     }
     
@@ -37,7 +38,7 @@ class Recognizer extends Component {
             });
             console.log(file)
 
-            fetch("https://chorisma.app/Prod/get_presigned_url")
+            fetch("https://5rche2pu3k.execute-api.ap-southeast-2.amazonaws.com/Prod/get_presigned_url")
             .then(response => response.json())
             .then(res => {
                 this.uploadViaPresignedURL(res.preSignedURL, file, res.key);
@@ -70,7 +71,7 @@ class Recognizer extends Component {
         return (
             <div>
                 <p className="chord-name"></p>
-                <br />
+                <br /><br />
                 <button className="clicker" onClick={this.startListening}>
                     <img src={logo} className="App-logo paused" alt="logo" />
                 </button>

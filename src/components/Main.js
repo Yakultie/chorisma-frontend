@@ -14,9 +14,6 @@ class Main extends Component {
                 <br /><br /><br />
                 <Recognizer />
                 <br /><br />
-                <div className="buttonContainer">
-                <a href="/wizard"><button className="wizard-button">Manual Detect</button></a>
-                </div>
                 </header>
             </div>
         );
