@@ -1,6 +1,7 @@
 import './App.css';
 import Main from './components/Main';
 import NoteVoicingWizard from './components/NoteVoicingWizard';
+import Recognizer from './components/Recognizer';
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -12,6 +13,7 @@ function App() {
         <Route path='/' element={<Main />} />
         <Route path='/wizard-page' element={<NoteVoicingWizard />} />
         <Route path="/wizard" element={ <Navigate to="/wizard-page" /> }/>
+        <Route path="/recognize" element={ <Recognizer/> }/>
       </Routes>
     </Router>
   );

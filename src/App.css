@@ -28,6 +28,16 @@
   color: white;
 }
 
+.chord-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(20px + 2vmin);
+  font: normal bold 26px/1 "Ubuntu", sans-serif;
+  color: white;
+}
+
 .App-link {
   color: #61dafb;
 }
